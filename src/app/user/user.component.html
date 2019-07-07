@@ -1,0 +1,96 @@
+<div id="overlay"></div>
+<div id="formwindow" class="row">
+    <div class="col-sm-4">
+        <div>Registration</div>
+        <form [formGroup]="userForm" (ngSubmit)="doUserFormSubmit()">
+                <div class="form-group">
+                    <div [ngClass] = "'errortooltip'">
+                        <div *ngIf="(userForm.get('mobileNumber').invalid && userForm.get('mobileNumber').errors?.required && isPosted) ||
+                            (userForm.get('mobileNumber').errors?.required && (userForm.get('mobileNumber').dirty || userForm.get('mobileNumber').touched))" 
+                            [ngClass] = "'tooltiptext'">
+                            Mobile number is required
+                        </div>
+                        <div *ngIf="(userForm.get('mobileNumber').invalid && userForm.get('mobileNumber').errors?.pattern) ||
+                            (userForm.get('mobileNumber').errors?.pattern && (userForm.get('mobileNumber').dirty || userForm.get('mobileNumber').touched))" 
+                            [ngClass] = "'tooltiptext'">
+                            Please enter valid Indonesian phone number
+                        </div>
+                        <div *ngIf="isMobileExists" [ngClass] = "'tooltiptext'">
+                                Mobile Number is already exists
+                        </div>
+                    </div>
+                    <input class="form-control" type="text" formControlName="mobileNumber" placeholder="Mobile Number" (focusout)="doCheckExistsMobile()">
+                </div>
+                <div class="form-group">
+                    <div [ngClass] = "'errortooltip'">
+                        <div *ngIf="(userForm.get('firstName').invalid && userForm.get('firstName').errors?.required && isPosted) ||
+                            (userForm.get('firstName').errors?.required && (userForm.get('firstName').dirty || userForm.get('firstName').touched))" 
+                            [ngClass] = "'tooltiptext'">
+                            First Name is required
+                        </div>
+                    </div>
+                    <input class="form-control" type="text" formControlName="firstName" placeholder="First Name">
+                </div>
+                <div class="form-group">
+                    <div [ngClass] = "'errortooltip'">
+                        <div *ngIf="(userForm.get('lastName').invalid && userForm.get('lastName').errors?.required && isPosted) ||
+                            (userForm.get('lastName').errors?.required && (userForm.get('lastName').dirty || userForm.get('lastName').touched))" 
+                            [ngClass] = "'tooltiptext'">
+                            Last Name is required
+                        </div>
+                    </div>
+                    <input class="form-control" type="text" formControlName="lastName" placeholder="Last Name">
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col">
+                            <select class="form-control" formControlName="month">
+                                <option *ngFor="let month of months" [value]="month.id">{{ month.value }}</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <select class="form-control" formControlName="date">
+                                <option *ngFor="let date of dates" [value]="date.id">{{ date.value }}</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <select class="form-control" formControlName="year">
+                                <option *ngFor="let year of years" [value]="year.id">{{ year.value }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                        <div class="row">
+                            <div class="col">
+                                <input type="radio" name="gender" formControlName="gender" value="Male">Male
+                            </div>
+                            <div class="col">
+                                <input type="radio" name="gender" formControlName="gender" value="Female">Female
+                            </div>
+                        </div>
+                </div>
+                <div class="form-group">
+                    <div [ngClass] = "'errortooltip'">
+                        <div *ngIf="(userForm.get('firstName').invalid && userForm.get('firstName').errors?.required && isPosted) ||
+                            (userForm.get('email').errors?.required && (userForm.get('email').dirty || userForm.get('email').touched))" 
+                            [ngClass] = "'tooltiptext'">
+                            Email is required
+                        </div>
+                        <div *ngIf="isEmailExists" [ngClass] = "'tooltiptext'">
+                                Email is already exists
+                        </div>
+                    </div>
+                    <input class="form-control" type="text" formControlName="email" placeholder="Email" (focusout)="doCheckExistsEmail()">
+                </div>
+                <button class="form-control" type="submit">Register</button>
+        </form>
+    </div>
+</div>
+<div class="row"><div class="col">&nbsp;</div></div>
+<div class="row"><div class="col">&nbsp;</div></div>
+<div *ngIf="isSuccess" class="row">
+    <div class="col-sm-4">
+            <button class="form-control" routerLink="/login" routerLinkActive="active">Login</button>
+    </div>
+</div>
